@@ -1,0 +1,17 @@
+/var/log/openvpn/*.log {
+	daily
+	su ubuntu ubuntu
+	missingok
+	rotate 31
+	notifempty
+	nocompress
+	copytruncate
+	sharedscripts
+	su root
+	postrotate
+			systemctl restart openvpn-server@server.service
+			#[ ! -f /var/run/openvpn/server.pid ] || kill -USR2 `cat /var/run/openvpn/server.pid`
+	endscript
+	create 0666 ubuntu ubuntu
+}
+
